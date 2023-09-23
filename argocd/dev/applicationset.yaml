@@ -21,7 +21,7 @@ spec:
         version: v0.9.4
   template:
     metadata:
-      name: '{{cluster}}'
+      name: '{{ chart }}'
     spec:
       project: default
       sources:
@@ -29,6 +29,7 @@ spec:
           repoURL: '{{ repoURL }}'
           targetRevision: '{{ version }}'
           helm:
+            releaseName: '{{ chart }}'
             valueFiles:
               - $values/argocd/dev/values/'{{ chart }}'.yaml
         - repoURL: https://github.com/mo-abdallaa/argo-c.git
