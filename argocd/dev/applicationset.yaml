@@ -14,30 +14,30 @@ spec:
       - chart: crossplane
         namespace: crossplane
         repoURL: https://charts.crossplane.io/stable
-        version: v1.13.2
-      - chart: external-secrets-operator
+        version: 1.13.2
+      - chart: external-secrets
         namespace: external-secrets
         repoURL: https://charts.external-secrets.io
-        version: v0.9.4
+        version: 0.9.4
   template:
     metadata:
-      name: '{{ chart }}'
+      name: "{{ chart }}"
     spec:
       project: default
       sources:
-        - chart: '{{ chart }}'
-          repoURL: '{{ repoURL }}'
-          targetRevision: '{{ version }}'
+        - chart: "{{ chart }}"
+          repoURL: "{{ repoURL }}"
+          targetRevision: "{{ version }}"
           helm:
-            releaseName: '{{ chart }}'
+            releaseName: "{{ chart }}"
             valueFiles:
-              - $values/argocd/dev/values/'{{ chart }}'.yaml
+              - $values/argocd/dev/values/{{ chart }}.yaml
         - repoURL: https://github.com/mo-abdallaa/argo-c.git
           targetRevision: HEAD
           ref: values
       destination:
         name: in-cluster
-        namespace: '{{ namespace }}'
+        namespace: "{{ namespace }}"
       syncPolicy:
         automated:
           prune: true
