@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: guestbook
+spec:
+  generators:
+  - list:
+      elements:
+      - chart: cert-manager
+        namespace: cert-manager
+        repoURL: https://charts.jetstack.io
+        version: v1.12.3
+      - chart: crossplane
+        namespace: crossplane
+        repoURL: https://charts.crossplane.io/stable
+        version: v1.13.2
+      - chart: external-secrets-operator
+        namespace: external-secrets
+        repoURL: https://charts.external-secrets.io
+        version: v0.9.4
+  template:
+    metadata:
+      name: '{{cluster}}'
+    spec:
+      project: default
+      sources:
+        - chart: '{{ chart }}'
+          repoURL: '{{ repoURL }}'
+          targetRevision: '{{ version }}'
+          helm:
+            valuesFiles:
+              - $values/argocd/dev/values/'{{ chart }}'.yaml
+        - repoURL: https://github.com/mo-abdallaa/argo-c.git
+          targetRevision: HEAD
+          ref: values
+      destination:
+        name: in-cluster
+        namespace: '{{ namespace }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - createNamespace=true
