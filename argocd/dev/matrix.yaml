@@ -23,7 +23,7 @@ spec:
           pathParamPrefix: values
   template:
     metadata:
-      name: '{{ services.path.basename }}'
+      name: '{{ path.basename }}'
     spec:
       project: default
       source:
