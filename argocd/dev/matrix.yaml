@@ -19,7 +19,7 @@ spec:
           repoURL: https://github.com/mo-abdallaa/argo-c.git
           revision: main
           files:
-          - path: values/argocd/values/*/{{ services.path.basename }}.yaml"
+          - path: values/argocd/values/dev/{{ services.path.basename }}.yaml"
           pathParamPrefix: values
   template:
     metadata:
