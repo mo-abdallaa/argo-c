@@ -7,20 +7,25 @@ spec:
   goTemplate: true
   goTemplateOptions: ["missingkey=error"]
   generators:
-  - matrix:
-      generators:
-      - git:
-          repoURL: https://github.com/mo-abdallaa/argo-c.git
-          revision: main
-          directories:
-          - path: argocd/dev/services/*
-          #pathParamPrefix: services
-      - git:
-          repoURL: https://github.com/mo-abdallaa/argo-c.git
-          revision: main
-          files:
-          - path: values/argocd/values/*/*.yaml"
-          pathParamPrefix: values
+  - git:
+      repoURL: https://github.com/mo-abdallaa/argo-c.git
+      revision: main
+      directories:
+      - path: argocd/dev/services/*
+  # - matrix:
+  #     generators:
+  #     - git:
+  #         repoURL: https://github.com/mo-abdallaa/argo-c.git
+  #         revision: main
+  #         directories:
+  #         - path: argocd/dev/services/*
+  #         #pathParamPrefix: services
+  #     - git:
+  #         repoURL: https://github.com/mo-abdallaa/argo-c.git
+  #         revision: main
+  #         files:
+  #         - path: values/argocd/values/*/*.yaml"
+  #         pathParamPrefix: values
   template:
     metadata:
       name: '{{ path.basename }}'
@@ -28,10 +33,8 @@ spec:
       project: default
       source:
         repoURL: https://github.com/mo-abdallaa/argo-c.git
-        targetRevision: HEAD
+        targetRevision: main
         path: '{{ path }}'
-        helm:
-          releaseName: '{{ path.basename }}'
       destination:
         name: in-cluster
         namespace: 'tools-{{ path.basename }}'
