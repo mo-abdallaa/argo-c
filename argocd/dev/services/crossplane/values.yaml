@@ -1,0 +1,5 @@
+crossplane:
+  replicas: 1
+  serviceAccount:
+    customAnnotations: 
+      iam.gke.io/gcp-service-account: crossplane

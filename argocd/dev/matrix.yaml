@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: services
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - matrix:
+      generators:
+      - git:
+          repoURL: https://github.com/mo-abdallaa/argo-c.git
+          revision: main
+          directories:
+          - path: services/argocd/dev/services/*
+          pathParamPrefix: services
+      - git:
+          repoURL: https://github.com/mo-abdallaa/argo-c.git
+          revision: main
+          files:
+          - path: values/argocd/values/*/{{ services.path.basename }}.yaml"
+          pathParamPrefix: values
+  template:
+    metadata:
+      name: '{{ services.path.basename }}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/mo-abdallaa/argo-c.git
+        targetRevision: main
+        path: '{{ .path.path }}'
+        helm:
+          releaseName: '{{ services.path.basename }}'
+          valueFiles:
+            - '{{ values.path }}'
+      destination:
+        name: in-cluster
+        namespace: 'tools-{{ services.path.basename }}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true

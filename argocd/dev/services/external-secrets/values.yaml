@@ -1,0 +1,14 @@
+external-secrets:
+  replicaCount: 1
+  
+  crds:
+    createClusterexternalSecret: false
+
+  webhook:
+    create: false
+
+  certController:
+    create: false
+
+  serviceAccount:
+    name: external-secrets-reader
