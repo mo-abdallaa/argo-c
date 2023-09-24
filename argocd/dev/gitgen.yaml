@@ -10,20 +10,6 @@ spec:
       revision: main
       directories:
       - path: argocd/dev/services/*
-  # - matrix:
-  #     generators:
-  #     - git:
-  #         repoURL: https://github.com/mo-abdallaa/argo-c.git
-  #         revision: main
-  #         directories:
-  #         - path: argocd/dev/services/*
-  #         #pathParamPrefix: services
-  #     - git:
-  #         repoURL: https://github.com/mo-abdallaa/argo-c.git
-  #         revision: main
-  #         files:
-  #         - path: values/argocd/values/*/*.yaml"
-  #         pathParamPrefix: values
   template:
     metadata:
       name: '{{ path.basename }}'
